@@ -7,15 +7,16 @@ import Login from './pages/Login';
 //import PrivateRoute from './components/PrivateRoute';
 
 const App: React.FC = () => {
+    // Placeholder component for no leave blank element
+    const PlaceholderComponent = () => <div>Placeholder</div>;
+
     return (
         <Router>
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route
                     path="/"
-                    element={
-
-                    }
+                    element={<PlaceholderComponent />}
                 />
                 {/* más rutas aquí */}
             </Routes>
