@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+# This line specifies the shell to use for executing the script
+
+. "$(dirname -- "$0")/_/husky.sh"
+# This line sources the husky.sh script, which sets up the environment for Husky hooks
+
+npx lint-staged
+# This line runs lint-staged, which will lint only the files that are staged for commitnpx lint-staged

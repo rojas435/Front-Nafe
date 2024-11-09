@@ -1,5 +1,5 @@
 import axios from 'axios'
-import jwtService from '../services/jwtService'
+import jwtService from '../services/JWTService'
 
 const API_URL = 'http://localhost:8080/api/'
 
