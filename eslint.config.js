@@ -36,6 +36,8 @@ export default [
       ...typescriptPlugin.configs.recommended.rules,
       ...react.configs.recommended.rules,
       'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'error',
+      'react/jsx-uses-vars': 'error',
       '@typescript-eslint/no-unused-vars': 'warn',
     },
   },
