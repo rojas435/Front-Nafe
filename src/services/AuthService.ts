@@ -54,6 +54,25 @@ export const login = async (username: string, password: string): Promise<string 
     }
 };
 
+export const signup = async (username: string, password: string, email: string, phone: string, rh: string, weight: number): Promise<string | null> => {
+    try {
+        const response = await fetch('http://localhost:8080/api/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, email, phone, rh, weight })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Signup failed with status: ${response.status}`);
+        }
+
+        return 'User registered successfully';
+    } catch (error) {
+        console.error('Signup error details:', error);
+        return null;
+    }
+};
+
 // Utility function to decode JWT
 export const decodeToken = (token: string) => {
     try {

@@ -1,7 +1,7 @@
-import axios from 'axios'
-import jwtService from '../services/JWTService'
+import axios from 'axios';
+import jwtService from '../services/JWTService';
 
-const API_URL = 'http://localhost:8080/api/'
+const API_URL = 'http://localhost:8080/api/';
 
 const axiosInstance = axios.create({
     baseURL: API_URL,
@@ -9,32 +9,30 @@ const axiosInstance = axios.create({
         'Content-Type': 'application/json',
     },
     timeout: 10000,
-})
+});
 
 axiosInstance.interceptors.request.use(
     (config) => {
-        const token = jwtService.getToken()
-        if (token && config.headers) {
-            config.headers['Authorization'] = `Bearer ${token}`
+        const token = jwtService.getToken();
+        if (token && config.headers && !config.url?.includes('/auth/signup')) {
+            config.headers['Authorization'] = `Bearer ${token}`;
         }
-        return config
+        return config;
     },
-    (error) => {
-        return Promise.reject(error)
-    }
-)
+    (error) => Promise.reject(error)
+);
 
 axiosInstance.interceptors.response.use(
     (response) => {
-        return response
+        return response;
     },
     (error) => {
         if (error.response && error.response.status === 401) {
-            jwtService.removeToken()
-            window.location.reload()
+            jwtService.removeToken();
+            window.location.reload();
         }
-        return Promise.reject(error)
+        return Promise.reject(error);
     }
-)
+);
 
-export default axiosInstance
+export default axiosInstance;
