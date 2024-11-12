@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { login } from '../services/AuthService';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import background from '../assets/login.png';
+import BackButton from '../components/BackButton';
+import { useAuth } from '../context/AuthContext';
+import { login } from '../services/AuthService';
 
 
 const Login: React.FC = () => {
@@ -115,6 +116,7 @@ const Login: React.FC = () => {
                         </button>
                     </form>
                 </div>
+                    <BackButton />
             </div>
         </div>
     );
