@@ -1,29 +1,22 @@
-// src/components/RequireAuth.tsx
-import React, { useContext } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
+import React from 'react';
+import { Navigate, useLocation, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-interface RequireAuthProps {
-    redirectPath?: string;
-    unAuthorizedPath?: string;
-    roles?: string[];
-}
+const RequireAuth = ({ allowedRoles }: { allowedRoles: string[] }) => {
+    const { isAuthenticated, userRole } = useAuth();
+    const location = useLocation();
 
-const RequireAuth: React.FC<RequireAuthProps> = ({
-                                                     redirectPath = '/login',
-                                                     unAuthorizedPath = '/unauthorized',
-                                                     roles = [],
-                                                 }) => {
-    const authContext = useContext(AuthContext);
-
-    if (!authContext?.isAuthenticated) {
-        return <Navigate to={redirectPath} replace />;
+    // Si no está autenticado, redirigir a login
+    if (!isAuthenticated) {
+        return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    if (roles.length > 0 && authContext && !authContext.hasRoles(roles)) {
-        return <Navigate to={unAuthorizedPath} replace />;
+    // Si está autenticado pero no tiene el rol requerido
+    if (!userRole || !allowedRoles.includes(userRole)) {
+        return <Navigate to="/unauthorized" replace />;
     }
 
+    // Si todo está bien, renderizar los componentes hijos
     return <Outlet />;
 };
 

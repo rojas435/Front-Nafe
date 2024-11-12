@@ -1,57 +1,43 @@
-import { jwtDecode } from 'jwt-decode'
+import { DecodedToken } from "../types/JWT";
 
-interface DecodedToken {
-    username: string
-    roles: string[]
-    exp: number
-}
+export default class JWTService {
 
-const TOKEN_KEY = 'jwtToken'
+    private static readonly TOKEN_KEY = 'jwtToken';
 
-const getToken = (): string | null => {
-    return localStorage.getItem(TOKEN_KEY)
-}
-
-const setToken = (token: string): string => {
-    localStorage.setItem(TOKEN_KEY, token)
-    return getToken() as string
-}
-
-const removeToken = (): void => {
-    localStorage.removeItem(TOKEN_KEY)
-}
-
-const getDecodedToken = (): DecodedToken | null => {
-    const token = getToken()
-    if (!token) return null
-    try {
-        return jwtDecode<DecodedToken>(token)
-    } catch (error) {
-        console.error('Failed to decode token', error)
-        return null
+    static setToken(token: string): void {
+        localStorage.setItem(this.TOKEN_KEY, token);
     }
-}
 
-const getUsername = (decodedToken: DecodedToken): string => {
-    return decodedToken ? decodedToken.username : ''
-}
+    static getToken(): string | null {
+        return localStorage.getItem(this.TOKEN_KEY);
+    }
 
-const getRoles = (decodedToken: DecodedToken): string[] => {
-    return decodedToken ? decodedToken.roles : []
-}
+    static removeToken(): void {
+        localStorage.removeItem(this.TOKEN_KEY);
+    }
 
-const isTokenExpired = (): boolean => {
-    const decodedToken = getDecodedToken()
-    if (!decodedToken) return true
-    return decodedToken.exp * 1000 < Date.now()
-}
+    static isTokenValid(token: string): boolean {
+        // Implement your token validation logic here
+        // For example, check if the token is expired
+        const decoded = this.getDecodedToken(token);
+        if (!decoded) return false;
 
-export default {
-    getToken,
-    setToken,
-    removeToken,
-    getDecodedToken,
-    getUsername,
-    getRoles,
-    isTokenExpired,
+        const currentTime = Math.floor(Date.now() / 1000);
+        return decoded.exp > currentTime;
+    }
+
+    static getDecodedToken(token: string): DecodedToken | null {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload) as DecodedToken;
+        } catch (error) {
+            console.error('Invalid token:', error);
+            return null;
+        }
+    }
 }

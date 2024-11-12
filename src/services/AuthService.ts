@@ -1,5 +1,4 @@
 // src/services/AuthService.ts
-
 const TOKEN_KEY = 'jwtToken';
 
 export const getToken = (): string | null => {
@@ -26,6 +25,7 @@ export const isTokenExpired = (): boolean => {
     }
 };
 
+// src/services/AuthService.ts
 export const login = async (username: string, password: string): Promise<string | null> => {
     try {
         const response = await fetch('http://localhost:8080/api/auth/login', {
@@ -33,11 +33,38 @@ export const login = async (username: string, password: string): Promise<string 
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password }),
         });
-        if (!response.ok) throw new Error('Login failed');
+
+        console.log('Login response status:', response.status); // Debug log
+
+        if (!response.ok) {
+            throw new Error(`Login failed with status: ${response.status}`);
+        }
+
         const data = await response.json();
-        return data.token;
+        console.log('Login response data:', data); // Debug log
+
+        // Check different possible token locations in response
+        const token = data.token || data.access_token || data.jwt;
+        console.log('Extracted token:', token); // Debug log
+
+        return token;
     } catch (error) {
-        console.error(error);
+        console.error('Login error details:', error);
+        return null;
+    }
+};
+
+// Utility function to decode JWT
+export const decodeToken = (token: string) => {
+    try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(c =>
+            '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        ).join(''));
+        return JSON.parse(jsonPayload);
+    } catch (error) {
+        console.error('Token decode error:', error);
         return null;
     }
 };

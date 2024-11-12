@@ -1,58 +1,54 @@
-// src/context/AuthContext.tsx
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import * as authService from '../services/AuthService';
+import React, { createContext, useState, useEffect, useContext } from 'react';
+import JWTService from '../services/JWTService';
 
-interface User {
-    role?: string;
-}
-
-interface AuthContextProps {
-    user: User | null;
-    login: (username: string, password: string) => Promise<boolean>;
-    logout: () => void;
+interface AuthContextType {
     isAuthenticated: boolean;
-    hasRoles: (roles: string[]) => boolean;
+    userRole: string | null;
+    login: (token: string) => void;
+    logout: () => void;
 }
 
-export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | null>(null);
 
-interface AuthProviderProps {
-    children: React.ReactNode;
-}
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [userRole, setUserRole] = useState<string | null>(null);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(authService.getUserInfo());
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!authService.isTokenExpired());
+    useEffect(() => {
+        const initializeAuth = () => {
+            const token = localStorage.getItem('token'); // Retrieve the token from local storage or another source
+            if (token && JWTService.isTokenValid(token)) {
+                const decoded = JWTService.getDecodedToken(token) as { roles?: string[] };
+                setIsAuthenticated(true);
+                setUserRole(decoded.roles?.[0] || null);
+            } else {
+                JWTService.removeToken();
+                setIsAuthenticated(false);
+                setUserRole(null);
+            }
+        };
 
-    const login = async (username: string, password: string): Promise<boolean> => {
-        const token = await authService.login(username, password);
-        if (token) {
-            authService.setToken(token);
-            setUser(authService.getUserInfo());
-            setIsAuthenticated(true);
-            return true;
-        }
-        return false;
+        initializeAuth();
+        // Set up token expiration check
+        const interval = setInterval(initializeAuth, 60000); // Check every minute
+        return () => clearInterval(interval);
+    }, []);
+
+    const login = (token: string) => {
+        JWTService.setToken(token);
+        const decoded = JWTService.getDecodedToken(token) as { roles?: string[] };
+        setIsAuthenticated(true);
+        setUserRole(decoded.roles?.[0] || null);
     };
 
     const logout = () => {
-        authService.removeToken();
-        setUser(null);
+        JWTService.removeToken();
         setIsAuthenticated(false);
-    };
-
-    useEffect(() => {
-        if (authService.isTokenExpired()) {
-            logout();
-        }
-    }, []);
-
-    const hasRoles = (roles: string[]) => {
-        return user?.role ? roles.includes(user.role) : false;
+        setUserRole(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated, hasRoles }}>
+        <AuthContext.Provider value={{ isAuthenticated, userRole, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

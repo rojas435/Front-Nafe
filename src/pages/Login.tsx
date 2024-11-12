@@ -1,21 +1,56 @@
 import React, { useState } from 'react';
 import { login } from '../services/AuthService';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import background from '../assets/login.png';
+
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const { login: authLogin } = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const success = await login(username, password);
-        if (!success) {
-            setError('Failed to login');
-        } else {
-            window.location.href = '/';
+        setError('');
+
+        try {
+            const token = await login(username, password);
+            console.log('Received token:', token); // Debug log
+
+            if (!token) {
+                setError('Failed to login');
+                return;
+            }
+
+            // Store token in auth context
+            authLogin(token);
+
+            // Get user info from token
+            const tokenParts = token.split('.');
+            const payload = JSON.parse(atob(tokenParts[1]));
+            const userRole = payload.roles?.[0] || payload.role || payload.authorities?.[0];
+
+            // Redirect based on role
+            if (userRole?.includes('ROLE_ADMIN')) {
+                console.log('Redirecting to admin');
+                navigate('/admin', { replace: true });
+            } else if (userRole?.includes('ROLE_USER')) {
+                console.log('Redirecting to user');
+                navigate('/user', { replace: true });
+            } else {
+                console.log('No role found, redirecting to home');
+                navigate('/', { replace: true });
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError('An error occurred during login. Please check the console for details.');
         }
     };
+
+
 
     return (
         <div className="min-h-screen w-full relative">

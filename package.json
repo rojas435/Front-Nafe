@@ -44,6 +44,6 @@
     "vite": "^5.4.10"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": "eslint"
+    "*.{js,ts,jsx,tsx}": "eslint --fix"
   }
 }
