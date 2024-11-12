@@ -1,5 +1,4 @@
 // src/routes/Routes.tsx
-import React from 'react';
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import RequireAuth from '../components/RequireAuth';
 import Login from '../pages/Login';

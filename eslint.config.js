@@ -35,13 +35,13 @@ export default [
     rules: {
       ...typescriptPlugin.configs.recommended.rules,
       ...react.configs.recommended.rules,
-      //'react/react-in-jsx-scope': 'off',
-      //'react/jsx-uses-react': 'error',
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off',
       'react/jsx-uses-vars': 'error',
       '@typescript-eslint/no-unused-vars': 'warn',
     },
   },
-  ...compat.extends('plugin:react/recommended'),
+  ...compat.extends('plugin:react/recommended', 'plugin:react/jsx-runtime'),
   {
     settings: {
       react: {
