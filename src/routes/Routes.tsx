@@ -1,4 +1,3 @@
-// src/routes/Routes.tsx
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import RequireAuth from '../components/RequireAuth';
 import Login from '../pages/Login';
@@ -7,6 +6,7 @@ import Admin from '../pages/Admin';
 import User from '../pages/User';
 import Unauthorized from '../pages/Unauthorized';
 import Register from '../pages/Signup';
+import RolesPage from '../pages/RolePage';
 
 const routes = createRoutesFromElements(
     <>
@@ -19,10 +19,11 @@ const routes = createRoutesFromElements(
         {/* Protected routes with role-based access */}
         <Route element={<RequireAuth allowedRoles={['ROLE_ADMIN']} />}>
             <Route path="/admin" element={<Admin />} />
+            <Route path="/roles" element={<RolesPage />} />
         </Route>
 
         <Route element={<RequireAuth allowedRoles={['ROLE_USER', 'ROLE_ADMIN']} />}>
-            <Route path="/user" element={<User />} /> 
+            <Route path="/user" element={<User />} />
         </Route>
     </>
 );

@@ -2,6 +2,7 @@ import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const RequireAuth = ({ allowedRoles }: { allowedRoles: string[] }) => {
+    // Usa `useAuth` para obtener `isAuthenticated` y `userRole` directamente
     const { isAuthenticated, userRole } = useAuth();
     const location = useLocation();
 

@@ -1,8 +1,14 @@
 // src/pages/Admin.tsx
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Admin = () => {
     const { userRole } = useAuth();
+    const navigate = useNavigate();
+
+    const goToRolesPage = () => {
+        navigate('/roles');
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
@@ -14,6 +20,12 @@ const Admin = () => {
                                 <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
                                 <p>Welcome to the admin area!</p>
                                 <p>Your role is: {userRole}</p>
+                                <button 
+                                    onClick={goToRolesPage} 
+                                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                                >
+                                    Go to Roles Page
+                                </button>
                             </div>
                         </div>
                     </div>
