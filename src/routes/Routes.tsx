@@ -7,6 +7,9 @@ import User from '../pages/User';
 import Unauthorized from '../pages/Unauthorized';
 import Register from '../pages/Signup';
 import RolesPage from '../pages/RolePage';
+import MachinesPage from '../pages/Machine';
+import RoutinesPage from '../pages/Routine';
+import SchedulesPage from '../pages/Schedule';
 
 const routes = createRoutesFromElements(
     <>
@@ -24,6 +27,9 @@ const routes = createRoutesFromElements(
 
         <Route element={<RequireAuth allowedRoles={['ROLE_USER', 'ROLE_ADMIN']} />}>
             <Route path="/user" element={<User />} />
+            <Route path="/machines" element={<MachinesPage />} />
+            <Route path="/routines" element={<RoutinesPage />} />
+            <Route path="/schedules" element={<SchedulesPage />} />
         </Route>
     </>
 );
