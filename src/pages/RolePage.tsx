@@ -16,7 +16,7 @@ const RolesPage = () => {
 
     const loadRoles = async () => {
         const data = await getAllRoles();
-        setRoles(data);  // 'data' debe ser un arreglo de tipo 'Role[]'
+        setRoles(data);
     };
 
     const handleCreateRole = async () => {
@@ -101,13 +101,13 @@ const RolesPage = () => {
                                             placeholder="Descripción del Rol"
                                         />
                                         <div className="flex gap-2">
-                                            <button 
+                                            <button
                                                 onClick={handleUpdateRole}
                                                 className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200"
                                             >
                                                 Guardar
                                             </button>
-                                            <button 
+                                            <button
                                                 onClick={() => setEditRoleId(null)}
                                                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors duration-200"
                                             >
@@ -122,13 +122,13 @@ const RolesPage = () => {
                                             <p className="text-gray-600 text-sm">{role.description}</p>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button 
+                                            <button
                                                 onClick={() => handleEditRole(role.id, role.name, role.description)}
                                                 className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors duration-200"
                                             >
                                                 Editar
                                             </button>
-                                            <button 
+                                            <button
                                                 onClick={() => handleDeleteRole(role.id)}
                                                 className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200"
                                             >
