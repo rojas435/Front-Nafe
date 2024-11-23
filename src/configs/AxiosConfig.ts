@@ -35,4 +35,19 @@ axiosInstance.interceptors.response.use(
     }
 );
 
+export const getAllUsers = async () =>{
+    const token = localStorage.getItem('jwtToken');
+    const response = await axiosInstance.get("http://localhost:8080/api/users", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
+    return response.data;
+}
+
+
+
 export default axiosInstance;
+
+
+
