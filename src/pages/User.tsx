@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import Logout from '../components/Logout';
 
 const User = () => {
     const navigate = useNavigate();
@@ -41,6 +42,7 @@ const User = () => {
                     >
                         Gestionar Horarios
                     </button>
+                    <Logout />
                 </div>
             </div>
         </div>

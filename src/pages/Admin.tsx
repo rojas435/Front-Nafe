@@ -1,6 +1,8 @@
 // src/pages/Admin.tsx
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Logout from '../components/Logout';
+
 
 const Admin = () => {
     const { userRole } = useAuth();
@@ -38,6 +40,8 @@ const Admin = () => {
                                     >
                                         Go to assign Roles Page
                                     </button>
+
+                                    <Logout />
                                 </div>
                             </div>
                         </div>
