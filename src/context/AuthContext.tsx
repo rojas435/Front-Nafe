@@ -11,17 +11,33 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const [userRole, setUserRole] = useState<string | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+        const token = JWTService.getToken();
+        return token ? JWTService.isTokenValid(token) : false;
+    });
+
+    const [userRole, setUserRole] = useState<string | null>(() => {
+        const token = JWTService.getToken();
+        const decoded = token ? JWTService.getDecodedToken(token) : null;
+        return decoded?.roles?.[0] || null;
+    });
 
     useEffect(() => {
         const initializeAuth = () => {
-            const token = localStorage.getItem('token'); // Retrieve the token from local storage or another source
-            if (token && JWTService.isTokenValid(token)) {
-                const decoded = JWTService.getDecodedToken(token) as { roles?: string[] };
-                setIsAuthenticated(true);
-                setUserRole(decoded.roles?.[0] || null);
-            } else {
+            try {
+                const token = JWTService.getToken();
+                if (token && JWTService.isTokenValid(token)) {
+                    const decoded = JWTService.getDecodedToken(token);
+                    setIsAuthenticated(true);
+                    setUserRole(decoded?.roles?.[0] || null);
+                } else {
+                    console.warn('Token invalid or not found');
+                    JWTService.removeToken();
+                    setIsAuthenticated(false);
+                    setUserRole(null);
+                }
+            } catch (error) {
+                console.error('Error initializing auth:', error);
                 JWTService.removeToken();
                 setIsAuthenticated(false);
                 setUserRole(null);

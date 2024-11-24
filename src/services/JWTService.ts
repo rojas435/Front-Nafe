@@ -2,7 +2,7 @@ import { DecodedToken } from "../types/JWT";
 
 export default class JWTService {
 
-    private static readonly TOKEN_KEY = 'jwtToken';
+    private static readonly TOKEN_KEY = 'token';
 
     static setToken(token: string): void {
         localStorage.setItem(this.TOKEN_KEY, token);
@@ -17,14 +17,15 @@ export default class JWTService {
     }
 
     static isTokenValid(token: string): boolean {
-        // Implement your token validation logic here
-        // For example, check if the token is expired
         const decoded = this.getDecodedToken(token);
-        if (!decoded) return false;
-
+        if (!decoded) {
+            console.error('Token decoding failed');
+            return false;
+        }
         const currentTime = Math.floor(Date.now() / 1000);
         return decoded.exp > currentTime;
     }
+
 
     static getDecodedToken(token: string): DecodedToken | null {
         try {
