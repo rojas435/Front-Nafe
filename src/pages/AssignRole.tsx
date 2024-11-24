@@ -1,6 +1,6 @@
- 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { getAllUsers } from '../services/UserService';
+import { getAllUsers, assignRoleToUser } from '../services/UserService';
 import { getAllRoles } from '../services/RoleService';
 import { User } from '../types/User';
 import { Role } from '../types/Role';
@@ -9,6 +9,7 @@ const AssignRolesComponent = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [assignableRoles, setAssignableRoles] = useState<Role[]>([]);
     const [selectedRoles, setSelectedRoles] = useState<{ [userId: number]: number | '' }>({});
+    const [loading, setLoading] = useState<{ [userId: number]: boolean }>({});
 
     useEffect(() => {
         loadUsers();
@@ -16,17 +17,20 @@ const AssignRolesComponent = () => {
     }, []);
 
     const loadUsers = async () => {
-        const data: User[] = await getAllUsers();
-        console.log('Users loaded:', data);
-        setUsers(data);
+        try {
+            const data: User[] = await getAllUsers();
+            console.log('Users loaded:', data);
+            setUsers(data);
 
-        // // Inicializar los roles seleccionados para cada usuario
-        // const initialSelectedRoles: { [userId: number]: number | '' } = {};
-        // data.forEach((user: User) => {
-        //     // Si el usuario ya tiene un rol asignado, podrías inicializarlo aquí
-        //     initialSelectedRoles[user.id] = user.roleId || '';
-        // });
-        // setSelectedRoles(initialSelectedRoles);
+            const initialSelectedRoles: { [userId: number]: number | '' } = {};
+            data.forEach((user: User) => {
+                initialSelectedRoles[user.id] = user.roleId || '';
+            });
+            setSelectedRoles(initialSelectedRoles);
+        } catch (error) {
+            console.error('Error loading users:', error);
+            alert('Error al cargar los usuarios');
+        }
     };
 
     const fetchRoles = async () => {
@@ -35,10 +39,11 @@ const AssignRolesComponent = () => {
             setAssignableRoles(roles);
         } catch (error) {
             console.error('Error fetching roles:', error);
+            alert('Error al cargar los roles');
         }
     };
 
-    const handleAssignRole = async (userId: number | string) => {
+    const handleAssignRole = async (userId: number) => {
         console.log('Attempting to assign role. userId:', userId);
         console.log('Selected roles state:', selectedRoles);
         
@@ -47,19 +52,28 @@ const AssignRolesComponent = () => {
             return;
         }
 
-        // const roleId = selectedRoles[userId];
-        // if (!roleId) {
-        //     console.error('No role selected');
-        //     return;
-        // }
+        const roleId = selectedRoles[userId];
+        if (!roleId) {
+            console.error('No role selected');
+            return;
+        }
 
-        // try {
-        //     await assignRoleToUser(Number(userId), Number(roleId));
-        //     alert(`Rol asignado exitosamente al usuario con ID: ${userId}`);
-        // } catch (error) {
-        //     console.error('Error al asignar rol:', error);
-        //     alert('Hubo un error al asignar el rol');
-        // }
+        // Actualizar estado de loading
+        setLoading(prev => ({ ...prev, [userId]: true }));
+
+        try {
+            // Convertir el roleId en un array como espera el backend
+            await assignRoleToUser(userId, roleId);
+            alert(`Rol asignado exitosamente al usuario con ID: ${userId}`);
+            // Actualizar la lista de usuarios
+            await loadUsers();
+        } catch (error: any) {
+            console.error('Error al asignar rol:', error);
+            const errorMessage = error.response?.data?.message || 'Hubo un error al asignar el rol';
+            alert(errorMessage);
+        } finally {
+            setLoading(prev => ({ ...prev, [userId]: false }));
+        }
     };
 
     const handleRoleChange = (userId: number, roleId: string) => {
@@ -92,6 +106,7 @@ const AssignRolesComponent = () => {
                                     onChange={(e) => handleRoleChange(user.id, e.target.value)}
                                     value={selectedRoles[user.id] || ''}
                                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    disabled={loading[user.id]}
                                 >
                                     <option value="">Selecciona un rol</option>
                                     {assignableRoles.map((role, roleIndex) => (
@@ -105,10 +120,10 @@ const AssignRolesComponent = () => {
                                 </select>
                                 <button
                                     onClick={() => handleAssignRole(user.id)}
-                                    disabled={!selectedRoles[user.id]}
+                                    disabled={!selectedRoles[user.id] || loading[user.id]}
                                     className="mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
                                 >
-                                    Asignar
+                                    {loading[user.id] ? 'Asignando...' : 'Asignar'}
                                 </button>
                             </div>
                         </li>

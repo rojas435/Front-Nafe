@@ -8,4 +8,5 @@ export interface User {
     rh: string;
     weight: number;
     roles: Role[];
+    roleId ?: number;
 }
