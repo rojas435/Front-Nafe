@@ -7,6 +7,6 @@ export interface User {
     phone: string;
     rh: string;
     weight: number;
-    roles: Role[];
+    roles?: Role[];
     roleId ?: number;
 }

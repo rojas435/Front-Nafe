@@ -14,6 +14,10 @@ const Admin = () => {
         navigate('/assignRoles');
     };
 
+    const goToListOfUsers = () => {
+        navigate('/usersList');
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -38,6 +42,15 @@ const Admin = () => {
                                     >
                                         Go to assign Roles Page
                                     </button>
+                                    
+                                    <button
+                                        onClick={goToListOfUsers} 
+                                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                                    >
+                                        Go to ListOfUsers
+                                    </button>
+
+
                                 </div>
                             </div>
                         </div>

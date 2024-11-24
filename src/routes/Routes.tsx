@@ -11,6 +11,8 @@ import MachinesPage from '../pages/Machine';
 import RoutinesPage from '../pages/Routine';
 import SchedulesPage from '../pages/Schedule';
 import AssignRolesPage from '../pages/AssignRole';
+import ListOfUsers from '../pages/UserList';
+
 // 
 const routes = createRoutesFromElements(
     <>
@@ -25,6 +27,7 @@ const routes = createRoutesFromElements(
             <Route path="/admin" element={<Admin />} />
             <Route path="/roles" element={<RolesPage />} />
             <Route path="/assignRoles" element={<AssignRolesPage />} />
+            <Route path="/usersList" element={<ListOfUsers />} />
            
         </Route>
 
