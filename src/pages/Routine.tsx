@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAllRoutines, createRoutine, updateRoutine } from '../services/RoutineService'; //deleteRoutine iba en los corchetes para poder usar el método
 import { Routine } from '../types/Routine';
+import BackButton from '../components/BackButton';
 
 const RoutinesPage = () => {
     const [routines, setRoutines] = useState<Routine[]>([]);
@@ -143,6 +144,7 @@ const RoutinesPage = () => {
                         </li>
                     ))}
                 </ul>
+                <BackButton/>
             </div>
         </div>
     );

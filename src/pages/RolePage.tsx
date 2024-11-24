@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createRole, deleteRole, getAllRoles, updateRole } from '../services/RoleService';
 import { Role } from '../types/Role';
+import BackButton from '../components/BackButton';
+
 
 const RolesPage = () => {
     const [roles, setRoles] = useState<Role[]>([]);
@@ -141,6 +143,7 @@ const RolesPage = () => {
                         </li>
                     ))}
                 </ul>
+            < BackButton/>
             </div>
         </div>
     );

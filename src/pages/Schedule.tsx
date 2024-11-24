@@ -1,17 +1,24 @@
 import { useEffect, useState } from 'react';
-import { getAllSchedules, createSchedule, updateSchedule, deleteSchedule } from '../services/ScheduleService';
+import {ScheduleWithDetails, getAllSchedules, createSchedule, updateSchedule, deleteSchedule } from '../services/ScheduleService';
 import { Schedule } from '../types/Schedule';
+import BackButton from '../components/BackButton';
+
 
 const SchedulesPage = () => {
-    const [schedules, setSchedules] = useState<Schedule[]>([]);
+    const [schedules, setSchedules] = useState<ScheduleWithDetails[]>([]);
     const [newSchedule, setNewSchedule] = useState<Schedule>({ userId: 0, routineId: 0 });
     const [editScheduleId, setEditScheduleId] = useState<number | null>(null);
     const [editSchedule, setEditSchedule] = useState<Schedule>({ userId: 0, routineId: 0 });
 
     useEffect(() => {
-        loadSchedules();
-    }, []);
+        const fetchSchedules = async () => {
+            const data = await getAllSchedules();
+            setSchedules(data);
+        };
 
+        fetchSchedules();
+    }, []);
+    
     const loadSchedules = async () => {
         const data = await getAllSchedules();
         setSchedules(data);
@@ -112,8 +119,8 @@ const SchedulesPage = () => {
                                 ) : (
                                     <>
                                         <div className="flex-1">
-                                            <span className="text-gray-800 font-medium">Usuario: {schedule.userId}</span>
-                                            <p className="text-gray-600 text-sm">Rutina: {schedule.routineId}</p>
+                                            <span className="text-gray-800 font-medium">Usuario: {schedule.userName}</span>
+                                            <p className="text-gray-600 text-sm">Rutina: {schedule.routineTitle}</p>
                                         </div>
                                         <div className="flex gap-2">
                                             <button
@@ -135,6 +142,7 @@ const SchedulesPage = () => {
                         </li>
                     ))}
                 </ul>
+            <BackButton/>
             </div>
         </div>
     );
