@@ -3,11 +3,13 @@ import { getAllUsers, getAssignableRoles } from '../services/UserService';
 import { getAllRoles } from '../services/RoleService';
 import { User } from '../types/User';
 import { Role } from '../types/Role';
+import { useNavigate } from 'react-router-dom';
 
 const UserList = () => {
     const [users, setUsers] = useState<User[]>([]);
-    const [roles, setRoles] = useState<Role[]>([]);
+    const [, setRoles] = useState<Role[]>([]);
     const [userRoles, setUserRoles] = useState<Record<number, Role[]>>({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadInitialData();
@@ -51,6 +53,10 @@ const UserList = () => {
         return userRolesList.map(role => role.name).join(', ');
     };
 
+    const goToAssignRolesPage = () => {
+        navigate('/assignRoles');
+    };
+
     return (
         <div className="max-w-4xl mx-auto p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Lista de Usuarios</h2>
@@ -92,8 +98,15 @@ const UserList = () => {
                                 </tr>
                             ))}
                         </tbody>
+                        
                     </table>
                 </div>
+                <button
+                    onClick={goToAssignRolesPage}
+                    className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"  
+                >
+                    Go to assign Roles
+                </button>
             </div>
         </div>
     );
