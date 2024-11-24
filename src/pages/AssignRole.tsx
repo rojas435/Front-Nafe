@@ -1,6 +1,6 @@
  
 import { useEffect, useState } from 'react';
-import { getAllUsers, assignRoleToUser } from '../services/UserService';
+import { getAllUsers } from '../services/UserService';
 import { getAllRoles } from '../services/RoleService';
 import { User } from '../types/User';
 import { Role } from '../types/Role';
@@ -20,13 +20,13 @@ const AssignRolesComponent = () => {
         console.log('Users loaded:', data);
         setUsers(data);
 
-        // Inicializar los roles seleccionados para cada usuario
-        const initialSelectedRoles: { [userId: number]: number | '' } = {};
-        data.forEach((user: User) => {
-            // Si el usuario ya tiene un rol asignado, podrías inicializarlo aquí
-            initialSelectedRoles[user.id] = user.roleId || '';
-        });
-        setSelectedRoles(initialSelectedRoles);
+        // // Inicializar los roles seleccionados para cada usuario
+        // const initialSelectedRoles: { [userId: number]: number | '' } = {};
+        // data.forEach((user: User) => {
+        //     // Si el usuario ya tiene un rol asignado, podrías inicializarlo aquí
+        //     initialSelectedRoles[user.id] = user.roleId || '';
+        // });
+        // setSelectedRoles(initialSelectedRoles);
     };
 
     const fetchRoles = async () => {
@@ -47,19 +47,19 @@ const AssignRolesComponent = () => {
             return;
         }
 
-        const roleId = selectedRoles[userId];
-        if (!roleId) {
-            console.error('No role selected');
-            return;
-        }
+        // const roleId = selectedRoles[userId];
+        // if (!roleId) {
+        //     console.error('No role selected');
+        //     return;
+        // }
 
-        try {
-            await assignRoleToUser(Number(userId), Number(roleId));
-            alert(`Rol asignado exitosamente al usuario con ID: ${userId}`);
-        } catch (error) {
-            console.error('Error al asignar rol:', error);
-            alert('Hubo un error al asignar el rol');
-        }
+        // try {
+        //     await assignRoleToUser(Number(userId), Number(roleId));
+        //     alert(`Rol asignado exitosamente al usuario con ID: ${userId}`);
+        // } catch (error) {
+        //     console.error('Error al asignar rol:', error);
+        //     alert('Hubo un error al asignar el rol');
+        // }
     };
 
     const handleRoleChange = (userId: number, roleId: string) => {
