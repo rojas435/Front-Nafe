@@ -1,8 +1,14 @@
 import axiosInstance from '../configs/AxiosConfig';
 import { Schedule } from '../types/Schedule';
 
+
+export type ScheduleWithDetails = Schedule & {
+    userName: string;
+    routineTitle: string;
+};
+
 // Obtener todos los schedules
-export const getAllSchedules = async (): Promise<Schedule[]> => {
+export const getAllSchedules = async (): Promise<ScheduleWithDetails[]> => {
     const response = await axiosInstance.get('/schedules');
     return response.data;
 };
