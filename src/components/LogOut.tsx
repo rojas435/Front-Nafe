@@ -37,7 +37,7 @@ const Logout: React.FC = () => {
             </svg>
             <span className="transform transition-all duration-300 ease-in-out
                            group-hover:translate-x-1">
-                Cerrar sesión
+                Log out
             </span>
         </button>
     );
