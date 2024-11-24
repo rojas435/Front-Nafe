@@ -1,7 +1,7 @@
 // src/pages/Admin.tsx
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Logout from '../components/Logout';
+import Logout from '../components/LogOut';
 
 
 const Admin = () => {
