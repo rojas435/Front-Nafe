@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { getAllUsers, assignRoleToUser } from '../services/UserService';
+import BackButton from '../components/BackButton';
 import { getAllRoles } from '../services/RoleService';
-import { User } from '../types/User';
+import { assignRoleToUser, getAllUsers } from '../services/UserService';
 import { Role } from '../types/Role';
+import { User } from '../types/User';
 
 const AssignRolesComponent = () => {
     const [users, setUsers] = useState<User[]>([]);
@@ -87,7 +88,6 @@ const AssignRolesComponent = () => {
     return (
         <div className="max-w-4xl mx-auto p-6">
             <h2 className="text-3xl font-bold text-gray-800 mb-8">Gestión de Usuarios</h2>
-
             <div className="bg-white rounded-lg shadow-md">
                 <ul className="divide-y divide-gray-200">
                     {users.map((user, userIndex) => (
@@ -129,6 +129,7 @@ const AssignRolesComponent = () => {
                         </li>
                     ))}
                 </ul>
+                <BackButton />
             </div>
         </div>
     );

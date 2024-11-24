@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getAllSchedules, createSchedule, updateSchedule, deleteSchedule } from '../services/ScheduleService';
 import { Schedule } from '../types/Schedule';
+import BackButton from '../components/BackButton';
+
 
 const SchedulesPage = () => {
     const [schedules, setSchedules] = useState<Schedule[]>([]);
@@ -135,6 +137,7 @@ const SchedulesPage = () => {
                         </li>
                     ))}
                 </ul>
+            <BackButton/>
             </div>
         </div>
     );
