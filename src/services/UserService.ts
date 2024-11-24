@@ -1,9 +1,10 @@
-import axios from 'axios';
-import { User } from '../types/User';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+//import axios from 'axios';
+//import { User } from '../types/User';
 import { Role } from '../types/Role';
 import axiosInstance from '../configs/AxiosConfig';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+//const API_BASE_URL = 'http://localhost:8080/api';
 
 // export const getAllUsers = async (): Promise<User[]> => {
 //     const response = await axios.get(`${API_BASE_URL}/users`);
@@ -16,10 +17,21 @@ export const getAllUsers = async () => {
 };
 
 export const getAssignableRoles = async (userId: number): Promise<{ roles: Role[] }> => {
-    const response = await axios.get(`${API_BASE_URL}/users/${userId}/assignable-roles`);
+    const response = await axiosInstance.get(`users/${userId}/assignable-roles`);
     return response.data;
 };
 
 export const assignRoleToUser = async (userId: number, roleId: number): Promise<void> => {
-    await axios.post(`${API_BASE_URL}/users/${userId}/roles`, { roleId });
+    try {
+        await axiosInstance.post(`users/${userId}/assign-roles`, [roleId]);
+        
+        console.log('Role assignment successful');
+    } catch (error: any) {
+        console.error('Error in role assignment:', {
+            status: error.response?.status,
+            data: error.response?.data
+        });
+        throw error;
+    }
 };
+
