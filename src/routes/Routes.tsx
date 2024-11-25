@@ -13,6 +13,7 @@ import SchedulesPage from '../pages/Schedule';
 import AssignRolesPage from '../pages/AssignRole';
 import ListOfUsers from '../pages/UserList';
 import Permissions from '../pages/PermissionPage';
+import PermissionEdit from '../pages/EditPermission'
 
 
 // 
@@ -31,6 +32,8 @@ const routes = createRoutesFromElements(
             <Route path="/assignRoles" element={<AssignRolesPage />} />
             <Route path="/usersList" element={<ListOfUsers />} />
             <Route path="/PermissionPage" element={<Permissions />} />
+            <Route path="/editPermission/:id" element={<PermissionEdit />} />
+
            
 
            

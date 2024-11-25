@@ -27,8 +27,8 @@ const PermissionList = () => {
         if(!permission.name) return 'Sin nombre';
     };
 
-    const goToEditPermission = () =>{
-        navigate('/editPermission')
+    const goToEditPermission = (permissionId: number) =>{
+        navigate(`/editPermission/${permissionId}`);
     };
 
     return (
@@ -68,7 +68,7 @@ const PermissionList = () => {
                                     <div>
                                         <button 
                                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                            onClick={goToEditPermission}
+                                            onClick={() => goToEditPermission(permission.id)}
                                         >
                                             Editar
                                         </button>
