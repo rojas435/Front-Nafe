@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { MachineService } from '../services/MachineService';
 import type { Machine } from '../types/Machine';
+import BackButton from '../components/BackButton';
+
 
 const MachinesPage: React.FC = () => {
     const [machines, setMachines] = useState<Machine[]>([]);
@@ -153,6 +155,7 @@ const MachinesPage: React.FC = () => {
                 ))}
             </ul>
             )}
+        <BackButton />
         </div>
         </div>
     );

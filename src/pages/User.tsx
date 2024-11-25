@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Logout from '../components/LogOut';
+import BackButton from '../components/BackButton';
 
 const User = () => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const User = () => {
             <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-6">
                 <h1 className="text-2xl font-bold text-center mb-6"> ¡¡ Helloooo there!! </h1>
                 <p className="text-center text-gray-700 mb-8">
-                    ¡¡ Bienvenido !!
+                    ¡¡ welcome !!
                 </p>
 
                 {/* Menú de opciones */}
@@ -24,7 +25,7 @@ const User = () => {
                         onClick={goToMachines}
                         className="bg-blue-500 text-white font-medium py-4 px-6 rounded-lg hover:bg-blue-600 transition"
                     >
-                        Ver Máquinas
+                        Look machines
                     </button>
 
                     {/* Enlace a Rutinas */}
@@ -32,7 +33,7 @@ const User = () => {
                         onClick={goToRoutines}
                         className="bg-green-500 text-white font-medium py-4 px-6 rounded-lg hover:bg-green-600 transition"
                     >
-                        Gestionar Rutinas
+                        Look routines
                     </button>
 
                     {/* Enlace a Horarios */}
@@ -40,10 +41,11 @@ const User = () => {
                         onClick={goToSchedules}
                         className="bg-purple-500 text-white font-medium py-4 px-6 rounded-lg hover:bg-purple-600 transition"
                     >
-                        Gestionar Horarios
+                        Look schedules
                     </button>
                     <Logout />
                 </div>
+                <BackButton />
             </div>
         </div>
     );
