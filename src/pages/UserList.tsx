@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getAllUsers, getAssignableRoles } from '../services/UserService';
-import { getAllRoles } from '../services/RoleService';
+import { getAllUsers } from '../services/UserService';
 import { User } from '../types/User';
-import { Role } from '../types/Role';
 import { useNavigate } from 'react-router-dom';
+import BackButton from '../components/BackButton';
 
 const UserList = () => {
     const [users, setUsers] = useState<User[]>([]);
-    const [, setRoles] = useState<Role[]>([]);
-    const [userRoles, setUserRoles] = useState<Record<number, Role[]>>({});
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,40 +14,17 @@ const UserList = () => {
 
     const loadInitialData = async () => {
         try {
-            // Cargar usuarios y roles
-            const [usersData, rolesData] = await Promise.all([
-                getAllUsers(),
-                getAllRoles()
-            ]);
-
+            const usersData = await getAllUsers();
             console.log('Usuarios recibidos:', usersData);
-            console.log('Roles recibidos:', rolesData);
-
             setUsers(usersData);
-            setRoles(rolesData);
-
-            // Cargar roles para cada usuario
-            const userRolesMap: Record<number, Role[]> = {};
-            for (const user of usersData) {
-                try {
-                    const { roles: userRoleData } = await getAssignableRoles(user.id);
-                    userRolesMap[user.id] = userRoleData;
-                } catch (error) {
-                    console.error(`Error loading roles for user ${user.id}:`, error);
-                    userRolesMap[user.id] = [];
-                }
-            }
-            setUserRoles(userRolesMap);
-
         } catch (error) {
             console.error('Error loading data:', error);
         }
     };
 
     const getUserRoleName = (user: User) => {
-        const userRolesList = userRoles[user.id] || [];
-        if (userRolesList.length === 0) return 'Sin rol asignado';
-        return userRolesList.map(role => role.name).join(', ');
+        if (!user.roles || user.roles.length === 0) return 'Sin rol asignado';
+        return user.roles.map(role => role.name).join(', ');
     };
 
     const goToAssignRolesPage = () => {
@@ -108,6 +82,7 @@ const UserList = () => {
                     Go to assign Roles
                 </button>
             </div>
+            <BackButton />
         </div>
     );
 };
