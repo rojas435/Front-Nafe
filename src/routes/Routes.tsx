@@ -1,19 +1,19 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import RequireAuth from '../components/RequireAuth';
-import Login from '../pages/Login';
-import Index from '../pages/Index';
 import Admin from '../pages/Admin';
-import User from '../pages/User';
-import Unauthorized from '../pages/Unauthorized';
-import Register from '../pages/Signup';
-import RolesPage from '../pages/RolePage';
+import AssignRolesPage from '../pages/AssignRole';
+import PermissionEdit from '../pages/EditPermission';
+import Index from '../pages/Index';
+import Login from '../pages/Login';
 import MachinesPage from '../pages/Machine';
+import Permissions from '../pages/PermissionPage';
+import RolesPage from '../pages/RolePage';
 import RoutinesPage from '../pages/Routine';
 import SchedulesPage from '../pages/Schedule';
-import AssignRolesPage from '../pages/AssignRole';
+import Register from '../pages/Signup';
+import Unauthorized from '../pages/Unauthorized';
+import User from '../pages/User';
 import ListOfUsers from '../pages/UserList';
-import Permissions from '../pages/PermissionPage';
-import PermissionEdit from '../pages/EditPermission'
 
 
 // 
@@ -48,4 +48,4 @@ const routes = createRoutesFromElements(
     </>
 );
 
-export const router = createBrowserRouter(routes);
+export const router = createBrowserRouter(routes, { basename: '/front-nafe' });

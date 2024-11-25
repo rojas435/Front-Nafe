@@ -1,7 +1,9 @@
 import axios from 'axios';
 import jwtService from '../services/JWTService';
 
-const API_URL = 'http://localhost:8080/api/';
+const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:8080/api/' // Para desarrollo local
+    : 'http://xhgrid2:8080/api/';  // Producción (redirigir al backend local a través del hostname del frontend)
 
 const axiosInstance = axios.create({
     baseURL: API_URL,
