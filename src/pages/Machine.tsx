@@ -4,7 +4,7 @@ import type { Machine } from '../types/Machine';
 
 const MachinesPage: React.FC = () => {
     const [machines, setMachines] = useState<Machine[]>([]);
-    const [newMachine, setNewMachine] = useState({ name: '', description: '' });
+    const [newMachine, setNewMachine] = useState<Machine>({ idMachine: 0, name: '', description: '' }); // idMachine agregado
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -33,7 +33,6 @@ const MachinesPage: React.FC = () => {
         fetchMachines();
     }, []);
 
-
     const handleCreate = async () => {
         if (!newMachine.name || !newMachine.description) {
             setError('Please provide both name and description for the machine');
@@ -43,7 +42,7 @@ const MachinesPage: React.FC = () => {
         try {
             const createdMachine: Machine = await machineService.createMachine(newMachine);
             setMachines([...machines, createdMachine]);
-            setNewMachine({ name: '', description: '' });
+            setNewMachine({ idMachine: 0, name: '', description: '' }); // Reset with idMachine as 0
             setError(null);
         } catch (error) {
             setError('Error creating machine');
@@ -153,7 +152,6 @@ const MachinesPage: React.FC = () => {
                     </li>
                 ))}
             </ul>
-
             )}
         </div>
         </div>
