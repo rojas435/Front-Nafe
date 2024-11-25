@@ -21,6 +21,10 @@ const Admin = () => {
         navigate('/usersList');
     };
 
+    const goToListOfPermission = () => {
+        navigate('/PermissionPage');
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -51,7 +55,15 @@ const Admin = () => {
                                         onClick={goToListOfUsers} 
                                         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                                     >
-                                        Go to ListOfUsers
+                                        Go to List Of Users
+                                    </button>
+
+                                    <button
+                                        onClick={goToListOfPermission} 
+                                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                                    
+                                    >
+                                        Go to List of permission
                                     </button>
 
 
