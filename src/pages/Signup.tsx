@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BackButton from '../components/BackButton';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../reducers/UserReducer';
 import { signup } from '../services/AuthService';
+import BackButton from '../components/BackButton';
 
 const Signup: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -10,33 +12,18 @@ const Signup: React.FC = () => {
     const [phone, setPhone] = useState('');
     const [rh, setRh] = useState('');
     const [weight, setWeight] = useState<number>(0);
+    const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    // Validate email format
-    const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
-    // Validate phone format (basic)
-    const validatePhone = (phone: string) => /^[0-9]{10}$/.test(phone);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         setMessage('');
 
-        // Basic field validations
         if (!username || !password || !email || !phone || !rh || weight <= 0) {
             setError('All fields are required.');
-            return;
-        }
-
-        if (!validateEmail(email)) {
-            setError('Please enter a valid email.');
-            return;
-        }
-
-        if (!validatePhone(phone)) {
-            setError('Please enter a valid 10-digit phone number.');
             return;
         }
 
@@ -48,8 +35,16 @@ const Signup: React.FC = () => {
                 return;
             }
 
+            // Dispatch the user data to the Redux store after successful signup
+            dispatch(setUser({
+                username,
+                name: username, // Example, modify based on response data
+                email,
+                token: 'your-token-here'  // Add the JWT token you receive after registration
+            }));
+
             setMessage('Registration successful! Redirecting to login...');
-            setTimeout(() => navigate('/login'), 2000);  // Redirect after success
+            setTimeout(() => navigate('/login'), 2000); // Redirect after success
         } catch (err) {
             setError('An error occurred during signup. Please try again.');
         }
@@ -135,7 +130,7 @@ const Signup: React.FC = () => {
                     </button>
                 </form>
             </div>
-                <BackButton />
+            <BackButton />
         </div>
     );
 };
