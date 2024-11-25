@@ -81,8 +81,8 @@ const UserList = () => {
                 >
                     Go to assign Roles
                 </button>
+                <BackButton />
             </div>
-            <BackButton />
         </div>
     );
 };

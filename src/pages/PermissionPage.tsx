@@ -79,8 +79,8 @@ const PermissionList = () => {
                         
                     </table>
                 </div>
+                <BackButton />
             </div>
-            <BackButton />
         </div>
     );
 };
