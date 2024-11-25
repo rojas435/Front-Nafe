@@ -5,6 +5,8 @@
     { "path": "./tsconfig.node.json" }
   ],
     "compilerOptions": {
-        "allowUnusedLabels": true
+        "allowUnusedLabels": true,
+        "lib": ["dom", "esnext"]
+
     }
 }
