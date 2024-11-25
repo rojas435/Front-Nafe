@@ -53,7 +53,7 @@ const SchedulesPage = () => {
 
     return (
         <div className="max-w-4xl mx-auto p-6">
-            <h2 className="text-3xl font-bold text-gray-800 mb-8">Gestión de Horarios</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-8">Manage schedules</h2>
 
             {/* Formulario para agregar nuevo schedule */}
             <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
@@ -76,7 +76,7 @@ const SchedulesPage = () => {
                         onClick={handleCreateSchedule}
                         className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
                     >
-                        Crear Horario
+                        Create schedule
                     </button>
                 </div>
             </div>
@@ -106,13 +106,13 @@ const SchedulesPage = () => {
                                                 onClick={handleUpdateSchedule}
                                                 className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
                                             >
-                                                Guardar
+                                                Save
                                             </button>
                                             <button
                                                 onClick={() => setEditScheduleId(null)}
                                                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
                                             >
-                                                Cancelar
+                                                Cancel
                                             </button>
                                         </div>
                                     </div>
@@ -127,13 +127,13 @@ const SchedulesPage = () => {
                                                 onClick={() => handleEditSchedule(schedule.idSchedule!, schedule.userId, schedule.routineId)}
                                                 className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition"
                                             >
-                                                Editar
+                                                Edit
                                             </button>
                                             <button
                                                 onClick={() => handleDeleteSchedule(schedule.idSchedule!)}
                                                 className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
                                             >
-                                                Eliminar
+                                                Delete
                                             </button>
                                         </div>
                                     </>

@@ -55,7 +55,7 @@ const RoutinesPage = () => {
 
     return (
         <div className="max-w-4xl mx-auto p-6">
-            <h2 className="text-3xl font-bold text-gray-800 mb-8">Gestión de Rutinas</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-8">Manage routines</h2>
 
             {/* Formulario para agregar nueva rutina */}
             <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
@@ -64,20 +64,20 @@ const RoutinesPage = () => {
                         type="text"
                         value={newRoutine.name}
                         onChange={(e) => setNewRoutine({ ...newRoutine, name: e.target.value })}
-                        placeholder="Nombre de la Rutina"
+                        placeholder="Name of routine"
                         className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <textarea
                         value={newRoutine.descriptionRoutine}
                         onChange={(e) => setNewRoutine({ ...newRoutine, descriptionRoutine: e.target.value })}
-                        placeholder="Descripción de la Rutina"
+                        placeholder="Description of routine"
                         className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <button
                         onClick={handleCreateRoutine}
                         className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
                     >
-                        Crear Rutina
+                        Create Routine
                     </button>
                 </div>
             </div>
@@ -106,13 +106,13 @@ const RoutinesPage = () => {
                                                 onClick={handleUpdateRoutine}
                                                 className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
                                             >
-                                                Guardar
+                                                Save
                                             </button>
                                             <button
                                                 onClick={() => setEditRoutineId(null)}
                                                 className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition"
                                             >
-                                                Cancelar
+                                                Cancel
                                             </button>
                                         </div>
                                     </div>
@@ -127,7 +127,7 @@ const RoutinesPage = () => {
                                                 onClick={() => handleEditRoutine(routine.idRoutine!, routine.name, routine.descriptionRoutine)}
                                                 className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition"
                                             >
-                                                Editar
+                                                Edit
                                             </button>
                                             {/* Esta comentado porque delete no funciona en el back y ya lo habíamos hablado
                                             <button

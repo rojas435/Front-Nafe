@@ -116,7 +116,7 @@ const Login: React.FC = () => {
                         </button>
                     </form>
                 </div>
-                    <BackButton />
+                <BackButton />
             </div>
         </div>
     );
